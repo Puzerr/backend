@@ -1,0 +1,171 @@
+type: collection.insomnia.rest/5.0
+name: API REST
+meta:
+  id: wrk_860b0c06cc964521a2d53e7e7f2f600b
+  created: 1757639100286
+  modified: 1757639100286
+  description: ""
+collection:
+  - url: http://localhost:3000/tarefas
+    name: GET /terefas
+    meta:
+      id: req_8a68121cc7b64a788d1656af25ae36cc
+      created: 1757026891690
+      modified: 1757638919538
+      isPrivate: false
+      description: ""
+      sortKey: -1757638859829
+    method: GET
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"id": 2,
+        	"nome":"Teste PUT",
+        	"concluída": true
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.4.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/tarefas/1
+    name: GET /tarefas/1
+    meta:
+      id: req_ffdc28490c8f45b29375037438593ba4
+      created: 1757638859679
+      modified: 1757638946809
+      isPrivate: false
+      description: ""
+      sortKey: -1757638859679
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.4.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/tarefas
+    name: POST /tarefas/3
+    meta:
+      id: req_b799cbbb8d084ab08408686c54f1e536
+      created: 1757638899783
+      modified: 1757639039691
+      isPrivate: false
+      description: ""
+      sortKey: -1757638859579
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        		"id": 3,
+        		"nome": "Teste POST",
+        		"concluida": true
+        	}
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.4.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/tarefas/3
+    name: POST /tarefas/3
+    meta:
+      id: req_85ede3cbaa224bc3a6d5ae0a7f45fbeb
+      created: 1757638978525
+      modified: 1757639040232
+      isPrivate: false
+      description: ""
+      sortKey: -1757638859479
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        		"id": 3,
+        		"nome": "Teste POST",
+        		"concluida": true
+        	}
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.4.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3000/tarefas/3
+    name: DELETE /tarefas/3
+    meta:
+      id: req_937f0f71203e4a9b82871dc3f9bf26e4
+      created: 1757639045646
+      modified: 1757639070091
+      isPrivate: false
+      description: ""
+      sortKey: -1757638859379
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.4.0
+    scripts:
+      preRequest: ""
+      afterResponse: ""
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_377e5165c7d848968bda982c64fb6016
+    created: 1757026881023
+    modified: 1757026881023
+environments:
+  name: Base Environment
+  meta:
+    id: env_aea4df87e85a4ed286eab5b54b7745df
+    created: 1757026881019
+    modified: 1757026881019
+    isPrivate: false
