@@ -2,49 +2,94 @@ const readline = require('readline-sync');
 const controlador = require('./controlador');
 
 
-function menu(){
+async function main(){
     while(true){
-        console.log('1. Adicionar contato');
-        console.log('2. Buscar contato');
-        console.log('3. Atualizar contato');
-        console.log('4. Remover contato');
-        console.log('5. Sair');
+        console.log("----- Menu de tarefas -----\n");
+        console.log('1. Adicionar tarefa');
+        console.log('2. Buscar tarefa');
+        console.log('3. Buscar todas as tarefas');
+        console.log('4. Atualizar tarefa');
+        console.log('5. Remover tarefa');
+        console.log('6. Sair');
 
         const opcao = readline.question("Escoha uma opção: ");
-        
-        async function escolherOpcao(opcao){
-            switch(parseInt(opcao)){
-                case 1: {
-                    console.log('\nAdicionando contato');
-                    const nome = readline.question('Digite o nome da tarefa: ');
-                    await controlador.adicionarTarefa(nome);
-                    break;
+
+        switch(parseInt(opcao)){
+            case 1: {
+                console.log('\n[Adicionando contato]');
+                const nome = readline.question('Digite o nome da tarefa: ');
+                const tarefaAdicionada = await controlador.adicionarTarefa(nome);
+                if(tarefaAdicionada){
+                    console.log(`> Tarefa ${tarefaAdicionada.nome} adicionada com sucesso!`);
                 };
-                case 2: {
-                    console.log('\nBuscando contato');
-                    const nome = readline.question('Digite o nome da tarefa: ');
-                    controlador.buscarTarefa(nome);
-                    break;
+                break;
+            };
+            case 2: {
+                console.log('\n[Buscar tarefa]');
+                const nome = readline.question('Digite o nome da tarefa: ');
+                const tarefa = await controlador.buscarTarefa(nome);
+                if(tarefa){
+                    console.log(`> Tarefa encontrada:`);
+                    console.log(` - ID: ${tarefa.id}`);
+                    console.log(` - Nome: ${tarefa.nome}`);
+                    console.log(` - Concluida: ${tarefa.concluida}`);
+                }else{
+                    console.log(`> A tarefa com o nome "${nome}" não foi encontrada...`);
                 };
-                case 3: {
-                    console.log('\nAtualizando contato');
-                    const nome = readline.question('Digite o nome da tarefa: ');
-                    console.log(await controlador.buscarTarefa(nome));
-                    const concluida = readline.question('Digite o status de conclusão da tarefa: ');
-                    await controlador.atualizarTarefa(nome,concluida);
-                    break;
+                break;
+            };
+            case 3 :{
+                console.log(`\n[Buscar todas as tarefas]`);
+                const todasTarefas = await controlador.buscarTodos();
+                if(todasTarefas){
+                    if(todasTarefas && todasTarefas.length > 0){
+                        console.log("> Lista de todas as tarefas");
+                        todasTarefas.forEach(tarefa => {
+                            console.log(` - ID: ${tarefa._id}, Nome: ${tarefa.nome}, Concluida: ${tarefa.concluida}`)
+                        });
+                    };
+                }else{
+                    console.log("Nenhuma tarefa encontrada (isso não é bom...");
                 };
-                case 4: {
-                    console.log('\nRemovendo contato');
-                    const nome = readline.question('Digite o nome da tarefa: ');
-                    await controlador.removerTarefa(nome);
-                    break;
+                break;
+            };
+            case 4: {
+                console.log('\n[Atualizar tarefa]');
+                const nome = readline.question('Digite o nome da tarefa: ');
+                const concluida = readline.question('Digite o status de conclusão da tarefa: ');
+                const tarefaAtualizada  = await controlador.atualizarTarefa(nome,concluida);
+                if(tarefaAtualizada){
+                    console.log(`> Tarefa atualizada com sucesso!`);
+                    console.log(` - ID: ${tarefaAtualizada.id}`);
+                    console.log(` - Nome: ${tarefaAtualizada.nome}`);
+                    console.log(` - Concluída: ${tarefaAtualizada.concluida}`);
+                }else{
+                    console.log(`> Tarefa não encontrada...`);
                 };
-                case 5: process.exit(0);
+                break;
+            };
+            case 5: {
+                console.log('\n[Remover tarefa]');
+                const nome = readline.question('Digite o nome da tarefa: ');
+                const tarefaRemovida = await controlador.removerTarefa(nome);
+                if(tarefaRemovida){
+                    console.log(`> Tarefa removida com sucesso!`);
+                }else{
+                    console.log(`> Tarefa não encontrada...`)
+                };
+                break;
+            };
+            case 6: {
+                console.log(`> Saíndo...`)
+                process.exit(0);
+            };
+            default: {
+                console.log("Opção inválida. Tente novamente!");
+                break;
             };
         };
-        escolherOpcao(opcao);
-    };
+        readline.question('\nPressione ENTER para continuar...');
+        };
 };
 
-menu();
+main();

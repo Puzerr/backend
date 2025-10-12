@@ -1,16 +1,21 @@
 const Tarefa = require('./modelo');
 
+async function buscarTodos(){
+    return Tarefa.buscarTudo();
+};
+
 async function adicionarTarefa(nome){
-    const tarefa = new Tarefa(nome);
+    const tarefa = new Tarefa(nome, false);
     await tarefa.init();
     await tarefa.inserir();
+    return tarefa;
 };
 
 async function buscarTarefa(nome){
     const tarefa = new Tarefa(nome);
     await tarefa.init();
-    await tarefa.buscar();
-    return tarefa;
+    const tarefaEncontrada = await tarefa.buscar();
+    return tarefaEncontrada;
 };
 
 async function atualizarTarefa(nome,concluida){
@@ -18,10 +23,13 @@ async function atualizarTarefa(nome,concluida){
     await tarefa.init();
     await tarefa.buscar();
     
-    if(tarefa._id){
-        await tarefa.alterar(nome, concluida);
+    if(tarefa.id){
+        const statusConcluida = (String(concluida).toLowerCase() === 'true');
+        await tarefa.alterar(nome, statusConcluida);
         return tarefa;
-    }else return null;
+    }else {
+        null;
+    }
 };
 
 async function removerTarefa(nome){
@@ -29,9 +37,12 @@ async function removerTarefa(nome){
     await tarefa.init();
     await tarefa.buscar();
 
-    if(tarefa._id){
+    if(tarefa.id){
         await tarefa.deletar(nome);
-    }else return null;
+        return tarefa;
+    }else{
+        return null;
+    };
 };
 
-module.exports = {adicionarTarefa,buscarTarefa,atualizarTarefa,removerTarefa};
+module.exports = {adicionarTarefa,buscarTarefa,atualizarTarefa,removerTarefa,buscarTodos};

@@ -7,7 +7,8 @@ const client = new MongoClient(url);
 async function conectaDb(){
     try{
         await client.connect();
-        return client.db('agenda');
+        console.log("Conexão com o banco de dados feita com sucesso!");
+        return client.db("agenda");
     } catch (e){
         console.log('Erro ao conectar ao MongoDB', e.message);
     };
