@@ -9,13 +9,15 @@ let id = null;
 describe('Testes do recurso /tarefas',() => {
     test('POST / deve retornar 201',async () => {
         const response = await request.post(url).send({nome: "Estudar"});
+        console.log(response.body)
         expect(response.status).toBe(201);
-        id = response.body.id;
+        id = response.body._id;
     });
 
     test('GET / deve retornar 200', async () => {
         const response = await request.get(url);
         expect(response.status).toBe(200);
+        expect(Array.isArray(response.body)).toBeTruthy();
     });
 
     test('GET /id deve retornar 200', async () => {
@@ -24,8 +26,7 @@ describe('Testes do recurso /tarefas',() => {
     });
 
     test('PUT /id deve retornar 200', async () => {
-        const response = await request.put(`${url}/${id}`).send(
-            {nome:"Estudar Express", concluida:true});
+        const response = await request.put(`${url}/${id}`).send({nome:"Estudar Express", concluida:true});
         expect(response.status).toBe(200);
     });
 
