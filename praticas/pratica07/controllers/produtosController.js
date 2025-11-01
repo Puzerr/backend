@@ -7,17 +7,14 @@ async function criar(req,res){
             return res.status(422).json({msg:'Nome e preço do produto são obrigatórios'});
         };
 
-        const novoProduto = await Produto.create({
-            nome:req.body.nome,
-            preco:req.body.preco
-        });
+        const novoProduto = await Produto.create({nome:req.body.nome, preco:req.body.preco});
 
         if(novoProduto){
             return res.status(201).json(novoProduto);
         };
         
     } catch (err){
-        if(err.erros){
+        if(err.errors){
             return res.status(500).json({msg:'Erro interno no servidor'});
         };
     };
@@ -32,9 +29,8 @@ async function listar(req,res){
         };
 
         return res.status(404).json({msg:'Nenhum produto encontrado'})
-        
     } catch (err){
-        if(err.erros){
+        if(err.errors){
             return res.status(500).json({msg:'Erro interno no servidor'});
         };
     };
@@ -42,7 +38,7 @@ async function listar(req,res){
 
 async function buscar(req,res,next){
     try{
-        const {id} = req.params;
+        const { id } = req.params;
         if(!mongoose.Types.ObjectId.isValid(id)){
             return res.status(400).json({msg:'Parâmetro inválido'});
         };
@@ -51,11 +47,11 @@ async function buscar(req,res,next){
 
         if(produtoEncontrado){
             req.produto = produtoEncontrado;
-            next();
+            return next();
         };
         return res.status(404).json({msg:'Produto não encontrado'});
     } catch (err){
-        if(err.erros){
+        if(err.errors){
             return res.status(500).json({msg:'Erro interno no servidor'});
         };
     };
@@ -65,7 +61,7 @@ function exibir(req,res){
     try{
         return res.status(200).json(req.produto);
     } catch (err){
-        if(err.erros){
+        if(err.errors){
             return res.status(500).json({msg:'Erro interno no servidor'});
         };
     };
@@ -74,19 +70,25 @@ function exibir(req,res){
 async function atualizar(req,res){
     try{
         const {id} = req.params;
-        const produtoAtualizado = await Produto.findOneAndUpdate(
-            {_id:id},
-            {...req.body},
-            {runValidators:true}
-        );
+        
+        if(req.body.nome && req.body.preco){
+            const produtoAtualizado = await Produto.findOneAndUpdate(
+                {_id:id},
+                {...req.body},
+                {
+                    runValidators:true,
+                    new:true
+                }
+            );
 
-        if(produtoAtualizado){
-            return res.status(200).json(produtoAtualizado);
+            if(produtoAtualizado){
+                return res.status(200).json(produtoAtualizado);
+            };
+        }else{
+            return res.status(422).json({msg:'Nome e preço do produto são obrigatórios'});
         };
-
-        return res.status(422).json({msg:'Nome e preço do produto são obrigatórios'});
     } catch (err){
-        if(err.errros){
+        if(err.errors){
             return res.status(500).json({msg:'Erro interno no servidor'})
         };
     };
@@ -99,7 +101,7 @@ async function remover(req,res){
             return res.status(400).json({msg:'Parâmetro inválido'});
         };
 
-        const produtoRemovido = await Produto.findOneAndDelete({_id:id});
+        const produtoRemovido = await Produto.findOneAndDelete({_id:id}).exec();
         
         if(produtoRemovido){
             return res.status(204).end();

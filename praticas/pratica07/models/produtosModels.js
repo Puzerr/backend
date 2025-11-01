@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const schema = new mongoose.Schema({
     nome: {
         type: String,
-        required: true,
-        min: 3
+        required: true
     },
     preco: {
         type: Number,

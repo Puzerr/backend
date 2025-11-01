@@ -16,8 +16,6 @@ describe('Testes do recurso /produtos', () => {
         expect(response.body.preco).toBeCloseTo(10.00,2);
         expect(response.body._id).toBeDefined();
         id = response.body._id;
-        console.log('ID POST: ' + id);
-        console.log('CORPO POST: ' + 'Nome:' + response.body.nome + ' Preco:' +response.body.nome+response.body.preco)
     });
 
     test('POST / deve retornar 422 e um JSON', async () => {
@@ -69,8 +67,6 @@ describe('Testes do recurso /produtos', () => {
 
     test('PUT /id deve retornar 200 e um JSON', async () => {
         const response = await request.put(`${url}/${id}`).send({nome:"Laranja Pera",preco:18.00});
-        console.log(request.body)
-        console.log('ID PUT 200: ' + id)
         expect(response.status).toBe(200);
         expect(response.body).toBeDefined();
         expect(response.body).not.toBeNull();
@@ -83,16 +79,16 @@ describe('Testes do recurso /produtos', () => {
     test('PUT /id deve retornar 422 e um JSON', async () => {
         const response = await request.put(`${url}/${id}`).send({});
         expect(response.status).toBe(422);
-        expect(response.body).toBeDefinded();
+        expect(response.body).toBeDefined();
         expect(response.body).not.toBeNull();
         expect(response.headers['content-type']).toMatch(/json/);
-        expect(response.body.msg).toMatch('Nome e preço do produto são origatórios');
+        expect(response.body.msg).toMatch('Nome e preço do produto são obrigatórios');
     });
 
     test('PUT /0 deve retornar 400 e um JSON', async () => {
         const response = await request.put(`${url}/0`).send({});
         expect(response.status).toBe(400);
-        expect(response.body).toBeDefinded();
+        expect(response.body).toBeDefined();
         expect(response.body).not.toBeNull();
         expect(response.headers['content-type']).toMatch(/json/);
         expect(response.body.msg).toMatch('Parâmetro inválido');
@@ -101,7 +97,7 @@ describe('Testes do recurso /produtos', () => {
     test('PUT /000000000000000000000000 deve retornar 404 e um JSON', async () => {
         const response = await request.put(`${url}/000000000000000000000000`).send({});
         expect(response.status).toBe(404);
-        expect(response.body).toBeDefinded();
+        expect(response.body).toBeDefined();
         expect(response.body).not.toBeNull();
         expect(response.headers['content-type']).toMatch(/json/);
         expect(response.body.msg).toMatch('Produto não encontrado');
@@ -110,16 +106,16 @@ describe('Testes do recurso /produtos', () => {
     test('DELETE /id deve retornar 204 sem JSON', async () => {
         const response = await request.delete(`${url}/${id}`);
         expect(response.status).toBe(204);
-        expect(response.body).toBeDefinded();
-        expect(response.body).not.toBeDefinded();
+        expect(response.body).toBeDefined();
+        expect(response.body).not.toBeNull();
         expect(response.body).toStrictEqual({})
     });
 
     test('DELETE /0 deve retornar 400 e um JSON', async () => {
         const response = await request.delete(`${url}/0`);
         expect(response.status).toBe(400);
-        expect(response.body).toBeDefinded();
-        expect(response.body).not.toBeDefinded();
+        expect(response.body).toBeDefined();
+        expect(response.body).not.toBeNull();
         expect(response.body.msg).toMatch('Parâmetro inválido');
     });
 
