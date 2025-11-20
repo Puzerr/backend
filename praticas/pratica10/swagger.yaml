@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: Minha API REST
+  version: 0.1
+servers:
+  - url: http://localhost:3000/
+tags:
+  - name: usuarios
+paths:
+  /usuarios:
+    post:
+      tags:
+        - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                senha:
+                  type: string
+              required:
+                - email
+                - senha
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/Usuario"
+        "200":
+          content:
+            application/json: 
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/Mensagem"
+  /usuarios/login:
+    post:
+      tags:
+        - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                senha:
+                  type: string
+              required:
+                - email
+                - senha
+  /usuarios/renovar:
+    post:
+      security:
+        - JWTAuth: []
+      tags:
+        - usuarios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                required:
+                  - email 
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/Mensagem"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/Mensagem"
+  /usuarios/{id}:
+    delete:
+      security:
+        - JWTAuth: []
+      tags:
+        - usuarios
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:   
+            type: string
+      responses:
+        "204":
+          content:
+components:
+  schemas:
+  Usuario:
+    type: object
+    properties:
+      email:
+        type: string
+      senha:
+        type: string
+  Mensagem:
+    type: object
+    properties:
+      msg:
+        type: string
+  securitySchemes:
+    JWTAuth:
+      type: apiKey
+      in: header
+      name: Authorization
